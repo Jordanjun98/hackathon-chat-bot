@@ -1,29 +1,22 @@
-# README #
+Hrbot
+=====
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Getting started
 
-### What is this repository for? ###
+Install the prerequisite and run the application.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+    npm install
+    npm start
 
-### How do I get set up? ###
+## Testing
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Write tests in `test/test.spec.js` and test with mocha framework.
 
-### Contribution guidelines ###
+    npm test
 
-* Writing tests
-* Code review
-* Other guidelines
+## Contributing
 
-### Who do I talk to? ###
+Lint and fix coding style before commit.
 
-* Repo owner or admin
-* Other community or team contact
+    npm run lint
+
