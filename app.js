@@ -21,8 +21,12 @@ const bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
 // Listen for messages from user
 server.post('/api/messages', connector.listen());
 
+// Read existing datasets
+let data = JSON.parse(fs.readFileSync('data.json'));
+
 // Process bot components
 bot.dialog('/', session => {
+  console.log(session.message.user);
   if (session.message.type !== 'message') {
     session.send('Message type not supported');
   } else {
@@ -35,16 +39,12 @@ bot.dialog('/', session => {
       session.beginDialog('course');
       break;
     default:
-      session.beginDialog('userChoice');
+      session.beginDialog('menu');
     }
   }
 });
 
-// Read existing datasets
-let data = JSON.parse(fs.readFileSync('data.json'));
-
-// Prompt the choices for the user
-bot.dialog('userChoice', [
+bot.dialog('menu', [
   function (session) {
     builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
   },
@@ -82,8 +82,7 @@ bot.dialog('course', [
         || course.lessons[0];
       session.beginDialog('lesson', lesson);
     } else {
-      let courses = data.courses.map(course => course.name
-        + user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)');
+      let courses = data.courses.map(course => `${course.name} ${user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)'}`);
       console.log(courses);
       session.send('What is "' + result.response.entity + '"? Can I eat it?');
       session.beginDialog('/');
@@ -133,7 +132,6 @@ bot.dialog('quiz', [
     builder.Prompts.choice(session,'After these statements execute, \n\nwhich of the following describes the values \n\nthat z and y point to?', 'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
   },
   function (session, result) {
-    console.log(result);
     if (result.response.entity === 'z:10 , y:6') {
       session.send('Correct!');
       builder.Prompts.choice(session,'Would you like to proceed to next tutorial?','Yes|No',{listStyle :3});
