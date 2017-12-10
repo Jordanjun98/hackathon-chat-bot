@@ -30,7 +30,20 @@ bot.dialog('/', session => {
       session.send('Hello!');
       break;
     default:
-      session.send('Oo');
+			session.beginDialog('color');
     }
   }
 });
+
+bot.dialog('color', [
+	function (session) {
+		builder.Prompts.choice(session, "Which color do you prefer?", "red|blue|green", { listStyle: 3 })
+	},
+	function (session, results) {
+		if (results) {
+			console.log(results);
+		} else {
+			session.send('OK');
+		}
+	}
+]);
