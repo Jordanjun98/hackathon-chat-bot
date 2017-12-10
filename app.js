@@ -12,8 +12,8 @@ const inMemoryStorage = new builder.MemoryBotStorage();
 
 // Create bot and bind to console
 const connector = new builder.ChatConnector({
-  appId: '',
-  appPassword: ''
+  appId: '8dcf5b02-e2d4-41bf-9cf0-e46532522b5f',
+  appPassword: 'cseWOVSU598)++:kuqaZM89'
 });
 const bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
 
@@ -31,6 +31,9 @@ bot.dialog('/', session => {
     case (msg.match(/hi/i) || {}).input:
       session.send('Hello! I am Couch-K!');
       break;
+    case (msg.match(/courses/) || {}).input:
+      session.beginDialog('course');
+      break;
     default:
       session.beginDialog('userChoice');
     }
@@ -47,7 +50,7 @@ bot.dialog('userChoice', [
   },
   function (session, results) {
     if (results.response.entity === 'Courses') {
-      session.beginDialog('catalog');
+      session.beginDialog('course');
     } else {
       session.send('OK');
     }
@@ -67,15 +70,21 @@ bot.dialog('course', [
         progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
       };
     });
-    builder.Prompts.choice(session, 'How can I help you?',
-      courses.map(course => course.courseName), { listStyle: 3 });
+    builder.Prompts.choice(session, 'Who do you like?',
+      [].concat(courses.map(course => course.courseName), 'All courses'), { listStyle: 3 });
   },
   function (session, result) {
-    console.log(result);
-    //switch (result){
-    if (data.courses.find(course => course.name === result.response.entity)) {
-      session.beginDialog('lesson');
+    let user = data.users.find(user => user.id === session.message.user.id);
+    let course = data.courses.find(course => course.name === result.response.entity);
+    if (course) {
+      let lesson = course.lessons.find(lesson =>
+        lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
+        || course.lessons[0];
+      session.beginDialog('lesson', lesson);
     } else {
+      let courses = data.courses.map(course => course.name
+        + user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)');
+      console.log(courses);
       session.send('What is "' + result.response.entity + '"? Can I eat it?');
       session.beginDialog('/');
     }
@@ -104,32 +113,32 @@ bot.dialog('catalog',function (session) {
 	]);
 	session.send(msg).endDialog();
 });
-	
-bot.dialog('lesson', function (session) {
-  let user = data.users.find(user => user.id === session.message.user.id);
-  let course
+
+bot.dialog('lesson', function (session, lesson) {
+  var msg = new builder.Message(session);
   msg.attachmentLayout(builder.AttachmentLayout.carousel);
   msg.attachments([
-    new builder.ThumbnailCard(session)
-      .title(course.map(course => course.courseName)
-      .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')]))
+    new builder.VideoCard(session)
+      .title(lesson.name)
+      .media([builder.CardMedia.create(session, lesson.resources.find(resource => resource.type === 'video').url)])
   ]);
+  session.send('Let\'s begin on where you left...');
   session.send(msg).endDialog();
-  session.beginDialog('Quiz');
+  session.beginDialog('quiz');
 });
-					
-bot.dialog('Quiz', [
-	function(session){
-		session.send("Variable Quiz\n\nz = 5\n\ny = z + 1\n\nz = 10");
-		builder.Prompts.choice(session,'After these statements execute, \n\nwhich of the following describes the values \n\nthat z and y point to?', 'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
-	},
-	function (session, result) {
-		console.log(result);
-		if (result.response.entity === 'z:10 , y:6') {
-			session.send('Correct!');
-			builder.Prompts.choice(session,'Would you like to proceed to next tutorial?','Yes|No',{listStyle :3});
-		}else{
-			session.send('Opps! You can watch the video for multiple times to understand more clearly.');
-		}
-	}
+				
+bot.dialog('quiz', [
+  function(session) {
+    session.send('Variable Quiz\n\nz = 5\n\ny = z + 1\n\nz = 10');
+    builder.Prompts.choice(session,'After these statements execute, \n\nwhich of the following describes the values \n\nthat z and y point to?', 'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
+  },
+  function (session, result) {
+    console.log(result);
+    if (result.response.entity === 'z:10 , y:6') {
+      session.send('Correct!');
+      builder.Prompts.choice(session,'Would you like to proceed to next tutorial?','Yes|No',{listStyle :3});
+    } else {
+      session.send('Opps! You can watch the video for multiple times to understand more clearly.');
+    }
+  }
 ]);	
