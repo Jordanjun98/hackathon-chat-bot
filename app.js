@@ -12,8 +12,8 @@ const inMemoryStorage = new builder.MemoryBotStorage();
 
 // Create bot and bind to console
 const connector = new builder.ChatConnector({
-  appId: '',
-  appPassword: ''
+  appId: '8dcf5b02-e2d4-41bf-9cf0-e46532522b5f',
+  appPassword: 'cseWOVSU598)++:kuqaZM89'
 });
 const bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
 
