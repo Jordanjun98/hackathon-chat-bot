@@ -26,11 +26,11 @@ bot.dialog('/', session => {
   } else {
     let msg = session.message.text;
     switch (msg) {
-      case (msg.match(/hi/i) || {}).input:
-        session.send('Hello!');
-        break;
-      default:
-        session.send('Oo');
+    case (msg.match(/hi/i) || {}).input:
+      session.send('Hello!');
+      break;
+    default:
+      session.send('Oo');
     }
   }
 });
