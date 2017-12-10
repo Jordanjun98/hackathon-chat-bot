@@ -13,11 +13,10 @@
   "courses": [
     {
       "name": "Angular 5 course",
-  
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg",
       "skills": ["angular5"],
       "lessons": [
         {
-		  "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg",
           "name": "Angular lecture 1",
           "resources": [
             {
@@ -171,7 +170,7 @@
         "registered": [],
         "ongoing": [
           {
-            "courseName": "Angular 5 course",
+            "courseName": "Python course",
             "currentLesson": null
           }
         ],

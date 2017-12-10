@@ -46,15 +46,13 @@ bot.dialog('/', session => {
 
 bot.dialog('menu', [
   function (session) {
-    session.send('How can I help you?');
-	//builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
+	builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
   },
   function (session, results) {
-	endDialogWithResult(results);
-    if (results.response.entity === 'Courses') {
+    if (results.response == 'courses') {
       session.beginDialog('course');
     } else {
-      session.send('OK');
+      session.send('Other functions are still under development :)');
     }
   }
 ])
@@ -95,17 +93,19 @@ bot.dialog('course', [
 		  var msg = new builder.Message(session);
 		  let current = user.courses.ongoing.entity;
 		  msg.attachmentLayout(builder.AttachmentLayout.carousel);
-			msg.attachments([
-				new builder.ThumbnailCard(session)
-				  .title(user.courses.ongoing.courseName)
-				  .images([builder.CardMedia.create(session, 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg')])
-				  .button('Status')
-			]);
+		  msg.attachments([
+			  new builder.HeroCard(session)
+				.title(user.courses.ongoing.courseName)
+				.images([builder.CardImage.create(session, 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg')])
+				.button('Status')
+		  ]);
 		  session.send(msg).endDialog();
 	  }
     }
   }
-]);
+]).triggerAction({
+    matches: /^course$/gi
+});
 
 bot.dialog('catalog',function (session) {
 	var msg = new builder.Message(session);
@@ -138,6 +138,19 @@ bot.dialog('lesson', function (session, lesson) {
   session.send(msg).endDialog();
   session.beginDialog('quiz');
 });
+
+bot.dialog('quiz', function (session, lesson) {
+	builder.Prompts.choice(session, 'Consider this code:\n\nz = 5\n\ny = z + 1\n\nz = 10\n\nAfter these statemets execute, which of the following describes the values of x and y point to?',
+	'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
+	},	
+	function(session, result) {
+		if (result.response == 'z:10 , y:6') {
+			session.send('Correct!');
+		}else{
+			session.send('Opps, please try again.');
+		}
+	}
+);
 
 bot.customAction({
     matches: /help/gi,
