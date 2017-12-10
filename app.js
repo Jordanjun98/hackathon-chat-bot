@@ -41,6 +41,13 @@ let data;
 fs.readFile('data.json', 'utf8', (err, data) => {
   if (err) throw err;
   data = JSON.parse(data);
+
+  // Get kklee progreess on courses
+  let user = data.users.find(user => user.name === 'kklee');
+  let ongoingCourses = user.courses.ongoing.map(ongoing =>
+    data.courses.find(course => course.name === ongoing.courseName)
+  );
+  console.log(ongoingCourses);
 });
 
 // Prompt the choices for the user

@@ -1,1 +1,88 @@
-{}
+{
+  "company": {
+    "name": "hehe"
+  },
+  "projects": [
+    {
+      "name": "webspace 3",
+      "size": 7,
+      "requiredSkills": ["angular5", "moodle", "linux"],
+      "requiredGroups": []
+    }
+  ],
+  "courses": [
+    {
+      "name": "Angular 5 course",
+      "skills": ["angular5"],
+      "lessons": [
+        {
+          "name": "Angular lecture 1",
+          "resources": [
+            {
+              "name": "What's new in Angular 5?",
+              "url": "https://s3-ap-southeast-1.amazonaws.com/pickfirebucket/What's+New+In+Angular+Version+5%3F.mp4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Python course",
+      "skills": ["python3"],
+      "lessons": [
+        {
+          "name": "Python lecture 1",
+          "resources": []
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "angular5",
+      "groups": ["web frontend"],
+      "needs": ["typescript"],
+      "matches": ["angular", "angular5", "ng"]
+    },
+    {
+      "name": "typescript",
+      "groups": ["web frontend"],
+      "needs": ["javascript"],
+      "matches": ["typescript", "ts"]
+    },
+    {
+      "name": "javascript",
+      "groups": ["web frontend"],
+      "needs": [],
+      "matches": ["javascript", "js"]
+    },
+    {
+      "name": "moodle",
+      "groups": ["system admin"],
+      "needs": ["typescript"]
+    },
+    {
+      "name": "linux",
+      "groups": ["system admin"],
+      "needs": []
+    }
+  ],
+  "users": [
+    {
+      "name": "kklee",
+      "team": "cti",
+      "currentSkills": [],
+      "wantedSkills": [],
+      "courses": {
+        "registered": [],
+        "ongoing": [
+          {
+            "courseName": "Angular 5 course",
+            "currentLesson": "Angular lecture 1"
+          }
+        ],
+        "done": []
+      }
+    }
+  ]
+}
