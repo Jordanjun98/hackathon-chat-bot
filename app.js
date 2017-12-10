@@ -38,25 +38,7 @@ bot.dialog('/', session => {
 });
 
 // Read existing datasets
-let data;
-fs.readFile('data.json', 'utf8', (err, data) => {
-  if (err) throw err;
-  data = JSON.parse(data);
-
-  // Get kklee progreess on courses
-  let user = data.users.find(user => user.name === 'kklee');
-  let ongoingCourses = user.courses.ongoing.map(ongoing => {
-    let course = data.courses.find(course => course.name === ongoing.courseName);
-    let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
-      || { name: '' };
-    return {
-      courseName: course.name,
-      lessonName: lesson.name,
-      progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
-    };
-  });
-  console.log(ongoingCourses);
-});
+let data = JSON.parse(fs.readFileSync('data.json'));
 
 // Prompt the choices for the user
 bot.dialog('userChoice', [
@@ -64,32 +46,48 @@ bot.dialog('userChoice', [
     builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
   },
   function (session, results) {
-    console.log(results);
     if (results.response.entity === 'Courses') {
-      session.beginDialog('Courses');
+      session.beginDialog('course');
     } else {
       session.send('OK');
     }
   }
 ]);
 
-bot.dialog('Courses', [
+bot.dialog('course', [
   function (session) {
-    builder.Prompts.choice(session, 'How can I help you?', 'Introduction to Python|Java(To be completed)|More Coming Soon', { listStyle: 3 });
+    let user = data.users.find(user => user.id === session.message.user.id);
+    let courses = user.courses.ongoing.map(ongoing => {
+      let course = data.courses.find(course => course.name === ongoing.courseName);
+      let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
+        || { name: '' };
+      return {
+        courseName: course.name,
+        lessonName: lesson.name,
+        progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
+      };
+    });
+
+    builder.Prompts.choice(session, 'How can I help you?',
+      courses.map(course => course.courseName), { listStyle: 3 });
   },
-  function(session, result){
+  function (session, result) {
     console.log(result);
     //switch (result){
-    if (result.response.entity === 'Introduction to Python'){
-      session.beginDialog('Python1');
-    }//	break;
+    if (result.response.entity === 'Introduction to Python') {
+      session.beginDialog('samplevideo');
+    } else {
+      session.send('What is "' + result.response.entity + '"? Can I eat it?');
+      session.beginDialog('/');
+    }
+    //	break;
     //default:
     //session.send('Opps, the rest of the courses are under developing xD!');
     //}
   }
 ]);
 
-bot.dialog('Python1', function (session) {
+bot.dialog('python', function (session) {
   var msg = new builder.Message(session);
   msg.attachmentLayout(builder.AttachmentLayout.carousel);
   msg.attachments([

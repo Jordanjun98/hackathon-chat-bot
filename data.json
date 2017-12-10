@@ -91,7 +91,8 @@
   ],
   "users": [
     {
-      "name": "kklee",
+      "id": "default-user",
+      "name": "User",
       "team": "cti",
       "currentSkills": [],
       "wantedSkills": [],
