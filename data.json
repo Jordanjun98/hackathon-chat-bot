@@ -164,32 +164,34 @@
       "id": "default-user",
       "name": "User",
       "team": "cti",
-      "currentSkills": [],
-      "wantedSkills": [],
+      "skills": {
+        "current": [],
+        "wanted": []
+      },
       "courses": {
         "registered": [],
         "ongoing": [
           {
-            "courseName": "Python course",
+            "courseName": "Angular 5 course",
             "currentLesson": null
           }
         ],
         "done": []
       }
-    }
-  ],
-  "users": [
+    },
     {
       "id": "U84K6EHL2:T825V5N2C",
       "name": "kahkinlee998",
       "team": "cti",
-      "currentSkills": [],
-      "wantedSkills": [],
+      "skills": {
+        "current": [],
+        "wanted": []
+      },
       "courses": {
         "registered": [],
         "ongoing": [
           {
-            "courseName": "Angular",
+            "courseName": "Python course",
             "currentLesson": null
           }
         ],
