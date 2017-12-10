@@ -47,7 +47,7 @@ bot.dialog('userChoice', [
   },
   function (session, results) {
     if (results.response.entity === 'Courses') {
-      session.beginDialog('course');
+      session.beginDialog('catalog');
     } else {
       session.send('OK');
     }
@@ -67,33 +67,52 @@ bot.dialog('course', [
         progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
       };
     });
-
-    builder.Prompts.choice(session, 'Who do you like?',
+    builder.Prompts.choice(session, 'How can I help you?',
       courses.map(course => course.courseName), { listStyle: 3 });
   },
   function (session, result) {
     console.log(result);
     //switch (result){
-    if (result.response.entity === 'Introduction to Python') {
-      session.beginDialog('samplevideo');
+    if (data.courses.find(course => course.name === result.response.entity)) {
+      session.beginDialog('lesson');
     } else {
       session.send('What is "' + result.response.entity + '"? Can I eat it?');
       session.beginDialog('/');
     }
-    //	break;
-    //default:
-    //session.send('Opps, the rest of the courses are under developing xD!');
-    //}
   }
 ]);
 
-bot.dialog('python', function (session) {
-  var msg = new builder.Message(session);
+bot.dialog('catalog',function (session) {
+	let user = data.users.find(user => user.id === session.message.user.id);
+	let courses = user.courses.ongoing.map(ongoing => {
+	  let course = data.courses.find(course => course.name === ongoing.courseName);
+	  let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
+		|| { name: '' };
+	return {
+		courseName: course.name,
+		lessonName: lesson.name,
+		lessonUrl: course.thumbnail,
+		progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
+	};
+	})
+	msg.attachmentLayout(builder.AttachmentLayout.carousel);
+	msg.attachments([
+		new builder.ThumbnailCard(session)
+		  .title(course.map(course => course.courseName))
+		  .images([builder.CardMedia.create(session, lessonUrl)])
+		  .button('Enroll')
+	]);
+	session.send(msg).endDialog();
+});
+	
+bot.dialog('lesson', function (session) {
+  let user = data.users.find(user => user.id === session.message.user.id);
+  let course
   msg.attachmentLayout(builder.AttachmentLayout.carousel);
   msg.attachments([
-    new builder.VideoCard(session)
-      .title('Variable')
-      .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')])
+    new builder.ThumbnailCard(session)
+      .title(course.map(course => course.courseName)
+      .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')]))
   ]);
   session.send(msg).endDialog();
   session.beginDialog('Quiz');
