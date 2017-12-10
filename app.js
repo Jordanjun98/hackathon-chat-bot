@@ -88,8 +88,7 @@ bot.dialog('Python1', function (session) {
   msg.attachments([
     new builder.VideoCard(session)
       .title('Variable')
-      .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')]) 
-		
-  ]);	
+      .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')])
+  ]);
   session.send(msg).endDialog();
 });
