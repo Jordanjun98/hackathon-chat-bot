@@ -19,4 +19,18 @@ const bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
 // Listen for messages from user
 server.post('/api/messages', connector.listen());
 
-bot.dialog('/', session => session.send('Hello world!'));
+// Process bot components
+bot.dialog('/', session => {
+  if (session.message.type !== 'message') {
+    session.send('Message type not supported');
+  } else {
+    let msg = session.message.text;
+    switch (msg) {
+      case (msg.match(/hi/i) || {}).input:
+        session.send('Hello!');
+        break;
+      default:
+        session.send('Oo');
+    }
+  }
+});
