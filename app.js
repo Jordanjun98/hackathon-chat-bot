@@ -47,7 +47,8 @@ fs.readFile('data.json', 'utf8', (err, data) => {
   let user = data.users.find(user => user.name === 'kklee');
   let ongoingCourses = user.courses.ongoing.map(ongoing => {
     let course = data.courses.find(course => course.name === ongoing.courseName);
-    let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson);
+    let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
+      || { name: '' };
     return {
       courseName: course.name,
       lessonName: lesson.name,

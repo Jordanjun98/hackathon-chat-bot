@@ -78,7 +78,7 @@
         "ongoing": [
           {
             "courseName": "Angular 5 course",
-            "currentLesson": "Angular lecture 1"
+            "currentLesson": null
           }
         ],
         "done": []
