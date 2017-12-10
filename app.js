@@ -72,17 +72,20 @@ bot.dialog('course', [
     });
 
     builder.Prompts.choice(session, 'Who do you like?',
-      courses.map(course => course.courseName), { listStyle: 3 });
+      [].concat(courses.map(course => course.courseName), 'All courses'), { listStyle: 3 });
   },
   function (session, result) {
     let user = data.users.find(user => user.id === session.message.user.id);
     let course = data.courses.find(course => course.name === result.response.entity);
-    let lesson = course.lessons.find(lesson =>
-      lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
-      || course.lessons[0];
     if (course) {
+      let lesson = course.lessons.find(lesson =>
+        lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
+        || course.lessons[0];
       session.beginDialog('lesson', lesson);
     } else {
+      let courses = data.courses.map(course => course.name
+        + user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)');
+      console.log(courses);
       session.send('What is "' + result.response.entity + '"? Can I eat it?');
       session.beginDialog('/');
     }
