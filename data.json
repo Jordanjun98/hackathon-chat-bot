@@ -177,5 +177,24 @@
         "done": []
       }
     }
+  ],
+  "users": [
+    {
+      "id": "U84K6EHL2:T825V5N2C",
+      "name": "kahkinlee998",
+      "team": "cti",
+      "currentSkills": [],
+      "wantedSkills": [],
+      "courses": {
+        "registered": [],
+        "ongoing": [
+          {
+            "courseName": "Angular",
+            "currentLesson": null
+          }
+        ],
+        "done": []
+      }
+    }
   ]
 }
