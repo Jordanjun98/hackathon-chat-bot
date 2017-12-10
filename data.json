@@ -13,6 +13,7 @@
   "courses": [
     {
       "name": "Angular 5 course",
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg",
       "skills": ["angular5"],
       "lessons": [
         {
@@ -39,6 +40,7 @@
     },
     {
       "name": "Python course",
+      "thumbnail": "https://vignette.wikia.nocookie.net/autodeskmaya/images/3/31/Python-logo.png/revision/latest?cb=20111021123118",
       "skills": ["python3"],
       "lessons": [
         {
@@ -48,6 +50,74 @@
               "name" : "Numpy stack in python",
               "type" : "video",
               "url": "https://files.slack.com/files-pri/T825V5N2C-F8D825QES/the_numpy_stack_in_python_-_lecture_1_introduction__1_.mp4"
+            }
+          ]
+        }
+      ]
+    }
+    {
+      "name": "JavaScript course",
+      "thumbnail": "https://vignette.wikia.nocookie.net/central/images/c/c5/JavaScript_Logo.png/revision/latest?cb=20140307231238",
+      "skills": ["JavaScript"],
+      "lessons": [
+        {
+          "name": "JavaScript lecture 1",
+          "resources": [
+            {
+              "name" : "What is JavaScript",
+              "type" : "video",
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8CGFL0RK/what_is_javascript.mp4"
+            }
+          ]
+        }
+      ]
+    }
+    {
+      "name": "JavaScript course",
+      "thumbnail": "https://vignette.wikia.nocookie.net/central/images/c/c5/JavaScript_Logo.png/revision/latest?cb=20140307231238",
+      "skills": ["JavaScript"],
+      "lessons": [
+        {
+          "name": "JavaScript lecture 2",
+          "resources": [
+            {
+              "name" : "JavaScript mini course part 2",
+              "type" : "video",
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8BNAMM16/up_and_running_with_javascript_free_javascript_mini-course_____lecture_2.mp4"
+            }
+          ]
+        }
+      ]
+    }
+    {
+      "name": "TypeScript lecture 1",
+      "thumbnail": "https://vignette.wikia.nocookie.net/dev/images/d/db/Typescript_logo.png/revision/latest?cb=20151023133416",
+      "skills": ["TypeScript"],
+      "lessons": [
+        {
+          "name": "TypeScript lecture 1",
+          "resources": [
+            {
+              "name" : "What is TypeScript",
+              "type" : "video",
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8D8EKJES/what_is_typescript_typescript_introduction.mp4"
+            }
+          ]
+        }
+      ]
+    }
+    {
+      "name": "Moodle lecture 1",
+      "thumbnail": "https://mitchellcc.edu/sites/default/files/icon-moodle.png",
+      "skills": ["Moodle"],
+      "lessons": [
+        {
+          "name": "Moodle lecture 1",
+          "resources": [
+            {
+              "name" : "Introduction to moodle",
+              "type" : "video",
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8CCAQP7U/introduction_to_moodle__1_.mp4"
             }
           ]
         }
