@@ -33,7 +33,7 @@ bot.dialog('/', session => {
     let msg = session.message.text;
     switch (msg) {
     case (msg.match(/hi/i) || {}).input:
-      session.send('Hello! I am Couch-K!');
+      session.send('Hello! I am Couch-K!\n\nKindly enter \' help\' whenever you need any assistance :)');
       break;
     case (msg.match(/courses/) || {}).input:
       session.beginDialog('course');
@@ -55,7 +55,10 @@ bot.dialog('menu', [
       session.send('OK');
     }
   }
-]);
+])
+.triggerAction({
+    matches: /^menu$/gi
+});
 
 bot.dialog('course', [
   function (session) {
@@ -125,18 +128,10 @@ bot.dialog('lesson', function (session, lesson) {
   session.send(msg).endDialog();
   session.beginDialog('quiz');
 });
-				
-bot.dialog('quiz', [
-  function(session) {
-    session.send('Variable Quiz\n\nz = 5\n\ny = z + 1\n\nz = 10');
-    builder.Prompts.choice(session,'After these statements execute, \n\nwhich of the following describes the values \n\nthat z and y point to?', 'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
-  },
-  function (session, result) {
-    if (result.response.entity === 'z:10 , y:6') {
-      session.send('Correct!');
-      builder.Prompts.choice(session,'Would you like to proceed to next tutorial?','Yes|No',{listStyle :3});
-    } else {
-      session.send('Opps! You can watch the video for multiple times to understand more clearly.');
-    }
-  }
-]);	
+
+bot.customAction({
+    matches: /help/gi,
+    onSelectAction: (session, args, next) => {
+        session.send('### Help Notes\n\nEnter \'menu\' to return to main menu.');
+	}
+})
