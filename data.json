@@ -13,10 +13,11 @@
   "courses": [
     {
       "name": "Angular 5 course",
-      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg",
+  
       "skills": ["angular5"],
       "lessons": [
         {
+		  "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg",
           "name": "Angular lecture 1",
           "resources": [
             {
@@ -161,8 +162,8 @@
   ],
   "users": [
     {
-      "id": "U84K6EHL2:T825V5N2C",
-      "name": "kahkinlee998",
+      "id": "default-user",
+      "name": "User",
       "team": "cti",
       "currentSkills": [],
       "wantedSkills": [],

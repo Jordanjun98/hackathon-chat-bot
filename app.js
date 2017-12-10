@@ -35,7 +35,7 @@ bot.dialog('/', session => {
     case (msg.match(/hi/i) || {}).input:
       session.send('Hello! I am Couch-K!\n\nKindly enter \' help\' whenever you need any assistance :)');
       break;
-    case (msg.match(/courses/) || {}).input:
+    case (msg.match(/courses/i) || {}).input:
       session.beginDialog('course');
       break;
     default:
@@ -46,9 +46,11 @@ bot.dialog('/', session => {
 
 bot.dialog('menu', [
   function (session) {
-    builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
+    session.send('How can I help you?');
+	//builder.Prompts.choice(session, 'How can I help you?', 'Continue where you left off|Courses|My Profile', { listStyle: 3 });
   },
   function (session, results) {
+	endDialogWithResult(results);
     if (results.response.entity === 'Courses') {
       session.beginDialog('course');
     } else {
@@ -87,33 +89,41 @@ bot.dialog('course', [
     } else {
       let courses = data.courses.map(course => `${course.name} ${user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)'}`);
       console.log(courses);
-      session.send('What is "' + result.response.entity + '"? Can I eat it?');
-      session.beginDialog('/');
+      //session.send('What is "' + result.response.entity + '"? Can I eat it?');
+      //session.beginDialog('catalog');
+	  if (courses) {
+		  var msg = new builder.Message(session);
+		  let current = user.courses.ongoing.entity;
+		  msg.attachmentLayout(builder.AttachmentLayout.carousel);
+			msg.attachments([
+				new builder.ThumbnailCard(session)
+				  .title(user.courses.ongoing.courseName)
+				  .images([builder.CardMedia.create(session, 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg')])
+				  .button('Status')
+			]);
+		  session.send(msg).endDialog();
+	  }
     }
   }
 ]);
 
 bot.dialog('catalog',function (session) {
+	var msg = new builder.Message(session);
 	let user = data.users.find(user => user.id === session.message.user.id);
-	let courses = user.courses.ongoing.map(ongoing => {
-	  let course = data.courses.find(course => course.name === ongoing.courseName);
-	  let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
-		|| { name: '' };
-	return {
-		courseName: course.name,
-		lessonName: lesson.name,
-		lessonUrl: course.thumbnail,
-		progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
-	};
-	})
-	msg.attachmentLayout(builder.AttachmentLayout.carousel);
-	msg.attachments([
-		new builder.ThumbnailCard(session)
-		  .title(course.map(course => course.courseName))
-		  .images([builder.CardMedia.create(session, lessonUrl)])
-		  .button('Enroll')
-	]);
-	session.send(msg).endDialog();
+    let course = user.courses.ongoing.find(ongoing => course.name === ongoing.courseName)
+	if (course) {
+		let lesson = course.lessons.find(lesson =>
+        lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
+        || course.lessons[0];
+		msg.attachmentLayout(builder.AttachmentLayout.carousel);
+		msg.attachments([
+			new builder.ThumbnailCard(session)
+			  .title(lesson)
+			  .images([builder.CardMedia.create(session, lesson.thumbnail)])
+			  .button('Status')
+		]);
+		session.send(msg).endDialog();
+	}
 });
 
 bot.dialog('lesson', function (session, lesson) {
@@ -132,6 +142,6 @@ bot.dialog('lesson', function (session, lesson) {
 bot.customAction({
     matches: /help/gi,
     onSelectAction: (session, args, next) => {
-        session.send('### Help Notes\n\nEnter \'menu\' to return to main menu.');
+        session.send('* Help Notes\n\nEnter \'menu\' to return to main menu.');
 	}
 })
