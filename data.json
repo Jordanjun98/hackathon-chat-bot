@@ -33,6 +33,7 @@
               "name": "Angular 5 by ninja squad",
               "type": "video",
               "url": "https://files.slack.com/files-pri/T825V5N2C-F8C9V4LTV/angular_5_whats_new______by_ninja_squad__1_.mp4"
+
             }
           ]
         }
@@ -49,7 +50,17 @@
             {
               "name" : "Numpy stack in python",
               "type" : "video",
-              "url": "https://files.slack.com/files-pri/T825V5N2C-F8D825QES/the_numpy_stack_in_python_-_lecture_1_introduction__1_.mp4"
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8D825QES/the_numpy_stack_in_python_-_lecture_1_introduction__1_.mp4",
+            },
+            {
+              "name" : "Python Quiz",
+              "type" : "quiz",
+              "question": "How can you create an iterator object from a list?",
+              "choices": [
+                1,2,3,4,5
+              ],
+              "answer": "By using a for loop.",
+              "completed" : false
             }
           ]
         }
@@ -67,6 +78,7 @@
               "name" : "What is JavaScript",
               "type" : "video",
               "url": "https://files.slack.com/files-pri/T825V5N2C-F8CGFL0RK/what_is_javascript.mp4"
+
             }
           ]
         }
