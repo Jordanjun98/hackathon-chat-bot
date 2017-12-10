@@ -83,8 +83,7 @@ bot.dialog('course', [
         || course.lessons[0];
       session.beginDialog('lesson', lesson);
     } else {
-      let courses = data.courses.map(course => course.name
-        + user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)');
+      let courses = data.courses.map(course => `${course.name} ${user.courses.ongoing.find(ongoing => course.name === ongoing.courseName) ? '(check)' : '(enroll)'}`);
       console.log(courses);
       session.send('What is "' + result.response.entity + '"? Can I eat it?');
       session.beginDialog('/');
