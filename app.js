@@ -45,9 +45,15 @@ fs.readFile('data.json', 'utf8', (err, data) => {
 
   // Get kklee progreess on courses
   let user = data.users.find(user => user.name === 'kklee');
-  let ongoingCourses = user.courses.ongoing.map(ongoing =>
-    data.courses.find(course => course.name === ongoing.courseName)
-  );
+  let ongoingCourses = user.courses.ongoing.map(ongoing => {
+    let course = data.courses.find(course => course.name === ongoing.courseName);
+    let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson);
+    return {
+      courseName: course.name,
+      lessonName: lesson.name,
+      progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
+    };
+  });
   console.log(ongoingCourses);
 });
 
