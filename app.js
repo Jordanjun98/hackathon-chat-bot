@@ -27,17 +27,18 @@ bot.dialog('/', session => {
     let msg = session.message.text;
     switch (msg) {
     case (msg.match(/hi/i) || {}).input:
-      session.send('Hello!');
+      session.send('Hello! I am Couch-K!');
       break;
     default:
-			session.beginDialog('color');
+			session.beginDialog('userChoice');
     }
   }
 });
 
-bot.dialog('color', [
+//Prompt the choices for the user
+bot.dialog('userChoice', [
 	function (session) {
-		builder.Prompts.choice(session, "Which color do you prefer?", "red|blue|green", { listStyle: 3 })
+		builder.Prompts.choice(session, "How can I help you?", "Continue where you left off|Courses|My Profile", { listStyle: 3 })
 	},
 	function (session, results) {
 		if (results) {
