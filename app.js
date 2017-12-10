@@ -68,7 +68,7 @@ bot.dialog('course', [
       };
     });
 
-    builder.Prompts.choice(session, 'How can I help you?',
+    builder.Prompts.choice(session, 'Who do you like?',
       courses.map(course => course.courseName), { listStyle: 3 });
   },
   function (session, result) {
