@@ -1,5 +1,6 @@
 const restify = require('restify');
 const builder = require('botbuilder');
+const fs = require('fs');
 
 // Setup restify server
 const server = restify.createServer();
@@ -35,7 +36,14 @@ bot.dialog('/', session => {
   }
 });
 
-//Prompt the choices for the user
+// Read existing datasets
+let data;
+fs.readFile('data.json', 'utf8', (err, data) => {
+  if (err) throw err;
+  data = JSON.parse(data);
+});
+
+// Prompt the choices for the user
 bot.dialog('userChoice', [
 	function (session) {
 		builder.Prompts.choice(session, "How can I help you?", "Continue where you left off|Courses|My Profile", { listStyle: 3 })
