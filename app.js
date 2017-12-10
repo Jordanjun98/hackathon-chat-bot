@@ -81,7 +81,7 @@ bot.dialog('Courses', [
     console.log(result);
     //switch (result){
     if (result.response.entity === 'Introduction to Python'){
-      session.beginDialog('samplevideo');
+      session.beginDialog('Python1');
     }//	break;
     //default:
     //session.send('Opps, the rest of the courses are under developing xD!');
@@ -98,4 +98,21 @@ bot.dialog('Python1', function (session) {
       .media([builder.CardMedia.create(session,'https://d3c33hcgiwev3.cloudfront.net/1variables.c86b5453a6afdd5995498484b6f5469a/full/540p/index.mp4?Expires=1513036800&Signature=k4-S1AlgrHX53k4v-G6zgRxBAg26fJDLbfT1R3ukOGP4KPxVOImBM1FWf~uQIcCe3p2kyp5ka9KeP7lLX3sxZz0WzTmfnRX4bntzGw6jj-arnDMTGweynI-gsdububAO9-3iSf44ggzIDPuFgFwCBiXlpSgM87TMh8FPbmjIvR0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A')])
   ]);
   session.send(msg).endDialog();
+  session.beginDialog('Quiz');
 });
+					
+bot.dialog('Quiz', [
+	function(session){
+		session.send("Variable Quiz\n\nz = 5\n\ny = z + 1\n\nz = 10");
+		builder.Prompts.choice(session,'After these statements execute, \n\nwhich of the following describes the values \n\nthat z and y point to?', 'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
+	},
+	function (session, result) {
+		console.log(result);
+		if (result.response.entity === 'z:10 , y:6') {
+			session.send('Correct!');
+			builder.Prompts.choice(session,'Would you like to proceed to next tutorial?','Yes|No',{listStyle :3});
+		}else{
+			session.send('Opps! You can watch the video for multiple times to understand more clearly.');
+		}
+	}
+]);	
