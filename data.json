@@ -60,7 +60,7 @@
                 "z:5 , y:6",
 				"z:10 , y:6",
 				"z:10 , y:11",
-				"z and y point to memory address",
+				"z and y point to memory address"
               ],
               "answer": "z:10 , y:6",
               "completed" : false
