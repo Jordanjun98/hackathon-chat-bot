@@ -21,6 +21,7 @@ module.exports = {
       "error",
       "always"
     ],
+    "no-trailing-whitespace": true,
     "no-console": "off"
   }
 };

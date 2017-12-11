@@ -50,7 +50,7 @@
             {
               "name" : "Numpy stack in python",
               "type" : "video",
-              "url": "https://files.slack.com/files-pri/T825V5N2C-F8D825QES/the_numpy_stack_in_python_-_lecture_1_introduction__1_.mp4",
+              "url": "https://files.slack.com/files-pri/T825V5N2C-F8D825QES/the_numpy_stack_in_python_-_lecture_1_introduction__1_.mp4"
             },
             {
               "name" : "Python Quiz",
@@ -69,7 +69,7 @@
     {
       "name": "JavaScript course",
       "thumbnail": "http://html5beginners.com/wp-content/uploads/2014/09/java.png",
-      "skills": ["JavaScript"],
+      "skills": ["javascript"],
       "lessons": [
         {
           "name": "JavaScript lecture 1",
@@ -81,14 +81,7 @@
 
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "JavaScript course",
-      "thumbnail": "https://vignette.wikia.nocookie.net/central/images/c/c5/JavaScript_Logo.png/revision/latest?cb=20140307231238",
-      "skills": ["JavaScript"],
-      "lessons": [
+        },
         {
           "name": "JavaScript lecture 2",
           "resources": [
