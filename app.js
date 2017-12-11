@@ -134,11 +134,11 @@ bot.dialog('quiz', [
   (session) => {
     builder.Prompts.choice(session, 'Consider this code:\n\nz = 5\n\ny = z + 1\n\nz = 10\n\nAfter these statemets execute, which of the following describes the values of x and y point to?',
       'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
-  },	
+  },
   (session, result) => {
     if (result.response.entity == 'z:10 , y:6') {
       session.send('Correct!');
-    } else {
+    }else {
       session.send('Opps, please try again.');
     }
   }
@@ -148,4 +148,11 @@ bot.dialog('help', session => {
   session.send('* Help Notes\n\nEnter \'menu\' to return to main menu.');
 }).triggerAction({
   matches: /^!?help/
+});
+
+bot.dialog('profile', session => {
+  let user = data.users.find(user => user.id === session.message.user.id);
+  let ongoing = user.courses.ongoing.map(course => course.name);
+  session.ongoing.send('User Profile\n');
+
 });
