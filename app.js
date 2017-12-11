@@ -139,11 +139,6 @@ bot.dialog('quiz', [
   (session, result) => {
     session.send('Correct!');
     console.log(result);
-    // if (result.response.entity == 'z:10 , y:6') {
-    //   session.send('Correct!');
-    // } else {
-    //   session.send('Opps, please try again.');
-    // }
   }
 ]);
 
