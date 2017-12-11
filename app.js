@@ -48,12 +48,14 @@ bot.dialog('/', session => {
 bot.dialog('menu', [
   session => {
     builder.Prompts.choice(session, 'How can I help you?',
-      'Courses|Profile', { listStyle: 3 });
+      'Courses|Profile|Quiz', { listStyle: 3 });
   },
   (session, results) => {
     if (results.response.entity.toLowerCase() == 'courses') {
       session.beginDialog('course');
-    } else {
+    }else if (results.response.entity.toLowerCase() == 'quiz') {
+	  session.beginDialog('quiz');
+	}else {
       session.send('Other functions are still under development :)');
     }
   }
@@ -134,7 +136,7 @@ bot.dialog('quiz', [
       'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
   },	
   (session, result) => {
-    if (result.response == 'z:10 , y:6') {
+    if (result.response.entity == 'z:10 , y:6') {
       session.send('Correct!');
     } else {
       session.send('Opps, please try again.');
