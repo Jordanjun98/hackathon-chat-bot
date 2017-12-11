@@ -23,7 +23,21 @@
               "name": "What's new in Angular 5?",
               "type": "video",
               "url": "https://s3-ap-southeast-1.amazonaws.com/pickfirebucket/What's+New+In+Angular+Version+5%3F.mp4"
+            },
+            {
+              "name" : "Angular Quiz 1",
+              "type" : "quiz",
+              "question": "Which alphabet does Angular start with?",
+              "choices": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "answer": "A",
+              "completed" : false
             }
+
           ]
         },
         {
@@ -58,9 +72,9 @@
               "question": "Consider this code:\n\nz = 5\n\ny = z + 1\n\nz = 10\n\nAfter these statemets execute, which of the following describes the values of x and y point to?",
               "choices": [
                 "z:5 , y:6",
-				"z:10 , y:6",
-				"z:10 , y:11",
-				"z and y point to memory address"
+                "z:10 , y:6",
+                "z:10 , y:11",
+                "z and y point to memory address"
               ],
               "answer": "z:10 , y:6",
               "completed" : false

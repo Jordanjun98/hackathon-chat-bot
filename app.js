@@ -37,7 +37,7 @@ bot.dialog('/', session => {
       break;
     case (msg.match(/hi/i) || {}).input:
       session.send('Hello! I am Couch-K!\n\nKindly enter \' help\' whenever you need any assistance '
-                   + String.fromCharCode(0xD83D, 0xDE01));
+                     + String.fromCharCode(0xD83D, 0xDE01));
       /* fall through */
     default:
       session.beginDialog('menu');
@@ -48,14 +48,14 @@ bot.dialog('/', session => {
 bot.dialog('menu', [
   session => {
     builder.Prompts.choice(session, 'How can I help you?',
-      'Courses|Profile|Quiz', { listStyle: 3 });
+      'Courses|Profile', { listStyle: 3 });
   },
   (session, results) => {
     if (results.response.entity.toLowerCase() == 'courses') {
       session.beginDialog('course');
-    }else if (results.response.entity.toLowerCase() == 'quiz') {
-	  session.beginDialog('quiz');
-	}else {
+    } else if (results.response.entity.toLowerCase() == 'profile') {
+      session.beginDialog('profile');
+    } else {
       session.send('Other functions are still under development :)');
     }
   }
@@ -71,18 +71,14 @@ bot.dialog('course', [
       let course = data.courses.find(course => course.name === ongoing.courseName);
       let lesson = course.lessons.find(lesson => lesson.name === ongoing.currentLesson)
         || { name: '' };
-      return {
-        courseName: course.name,
-        lessonName: lesson.name,
-        progress: `${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length}`
-      };
+      return `${course.name} (${course.lessons.indexOf(lesson) + 1} of ${course.lessons.length})`;
     });
     builder.Prompts.choice(session, 'Which course would you like to view?',
-      [].concat(courses.map(course => course.courseName), 'All courses'), { listStyle: 3 });
+      [].concat(courses, ['All courses']), { listStyle: 3 });
   },
   (session, result) => {
     let user = data.users.find(user => user.id === session.message.user.id);
-    let course = data.courses.find(course => course.name === result.response.entity);
+    let course = data.courses.find(course => result.response.entity.indexOf(course.name) !== -1);
     if (course) {
       let lesson = course.lessons.find(lesson =>
         lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
@@ -100,9 +96,6 @@ bot.dialog('course', [
       ));
       session.send(msg);
     }
-  },
-  (session, result) => {
-    session.beginDialog('lesson', data.courses.map(course => course.name === result.response.entity));
   }
 ]).triggerAction({
   matches: /^course$/gi
@@ -111,6 +104,7 @@ bot.dialog('course', [
 bot.dialog('lesson', [
   (session, lesson) => {
     var msg = new builder.Message(session);
+    console.log(lesson);
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
     msg.attachments(lesson.resources.map(resource => {
       if (resource.type === 'video') {
@@ -119,28 +113,35 @@ bot.dialog('lesson', [
           .media([builder.CardMedia.create(session, resource.url)]);
       }
     }));
-    session.send('Let\'s begin on where you left...\n\nType "next" to go to the next lesson.');
     session.send(msg);
+    session.endDialog();
+    let quiz = lesson.resources.find(resource => resource.type === 'quiz');
+    if (quiz) {
+      session.beginDialog('quiz', quiz);
+    }
   },
   (session, result, next) => { // handle quiz
     if (result) {
       console.log(result);
       console.log(next);
+    } else {
+      session.endDialog();
     }
   }
 ]);
 
 bot.dialog('quiz', [
-  (session) => {
-    builder.Prompts.choice(session, 'Consider this code:\n\nz = 5\n\ny = z + 1\n\nz = 10\n\nAfter these statemets execute, which of the following describes the values of x and y point to?',
-      'z:5 , y:6|z:10 , y:6|z:10 , y:11|z and y point to memory address',{listStyle:3});
+  (session, quiz) => {
+    builder.Prompts.choice(session, quiz.name, quiz.choices, { listStyle: 3 });
   },
   (session, result) => {
-    if (result.response.entity == 'z:10 , y:6') {
-      session.send('Correct!');
-    }else {
-      session.send('Opps, please try again.');
-    }
+    session.send('Correct!');
+    console.log(result);
+    // if (result.response.entity == 'z:10 , y:6') {
+    //   session.send('Correct!');
+    // } else {
+    //   session.send('Opps, please try again.');
+    // }
   }
 ]);
 
