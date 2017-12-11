@@ -83,7 +83,7 @@ bot.dialog('course', [
       let lesson = course.lessons.find(lesson =>
         lesson.name === user.courses.ongoing.find(ongoing => course.name === ongoing.courseName).currentLesson)
           || course.lessons[0];
-      session.beginDialog('lesson', lesson);
+      session.beginDialog('lesson', [course, lesson]);
     } else {
       let msg = new builder.Message(session);
       msg.attachmentLayout(builder.AttachmentLayout.carousel);
@@ -102,9 +102,8 @@ bot.dialog('course', [
 });
 
 bot.dialog('lesson', [
-  (session, lesson) => {
+  (session, [course, lesson]) => {
     var msg = new builder.Message(session);
-    console.log(lesson);
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
     msg.attachments(lesson.resources.map(resource => {
       if (resource.type === 'video') {
@@ -116,6 +115,9 @@ bot.dialog('lesson', [
     session.send(msg);
     session.endDialog();
     let quiz = lesson.resources.find(resource => resource.type === 'quiz');
+    let user = data.users.find(user => user.id === session.message.user.id);
+    user.courses.ongoing.find(ongoing => ongoing.courseName === course.name).currentLesson = lesson.name;
+    fs.writeFileSync('data.json', JSON.stringify(data));
     if (quiz) {
       session.beginDialog('quiz', quiz);
     }
@@ -153,7 +155,6 @@ bot.dialog('help', session => {
 
 bot.dialog('profile', session => {
   let user = data.users.find(user => user.id === session.message.user.id);
-  let ongoing = user.courses.ongoing.map(course => course.name);
-  session.ongoing.send('User Profile\n');
-
+  session.send('User "' + user.name + '" (' + user.id + ')\n\nOngoing courses: '
+             + user.courses.ongoing.map(course => course.courseName).join(', '));
 });
