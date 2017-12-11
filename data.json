@@ -68,7 +68,7 @@
     },
     {
       "name": "JavaScript course",
-      "thumbnail": "https://vignette.wikia.nocookie.net/central/images/c/c5/JavaScript_Logo.png/revision/latest?cb=20140307231238",
+      "thumbnail": "http://html5beginners.com/wp-content/uploads/2014/09/java.png",
       "skills": ["JavaScript"],
       "lessons": [
         {
@@ -176,32 +176,34 @@
       "id": "default-user",
       "name": "User",
       "team": "cti",
-      "currentSkills": [],
-      "wantedSkills": [],
+      "skills": {
+        "current": [],
+        "wanted": []
+      },
       "courses": {
         "registered": [],
         "ongoing": [
           {
-            "courseName": "Python course",
+            "courseName": "Angular 5 course",
             "currentLesson": null
           }
         ],
         "done": []
       }
-    }
-  ],
-  "users": [
+    },
     {
       "id": "U84K6EHL2:T825V5N2C",
       "name": "kahkinlee998",
       "team": "cti",
-      "currentSkills": [],
-      "wantedSkills": [],
+      "skills": {
+        "current": [],
+        "wanted": []
+      },
       "courses": {
         "registered": [],
         "ongoing": [
           {
-            "courseName": "Angular",
+            "courseName": "Python course",
             "currentLesson": null
           }
         ],
